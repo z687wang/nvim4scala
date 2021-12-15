@@ -40,6 +40,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'preservim/nerdcommenter'
 Plug 'mhinz/vim-startify'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " Initialize plugin system
 call plug#end()
 
@@ -52,20 +54,31 @@ set wrap
 set showcmd
 set wildmenu
 set hlsearch
-noremap j k
 set incsearch
 set ignorecase
 set smartcase
-" color schemes
- if (has("termguicolors"))
- set termguicolors
- endif
- syntax enable
+syntax enable
 " colorscheme evening
+set termguicolors
 colorscheme dracula
-" open new split panes to right and below
+
 set splitright
 set splitbelow
+
+"Airline Coonfig
+let g:airline_theme = 'minimalist'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+let g:airline_experimental = 1
+let g:airline_statusline_ontop = 0
+
+"Setup NerdTree
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" Setup FZF
+set rtp+=/usr/local/opt/fzf
 "Key Mappings
 let mapleader = " "
 noremap = nzz
@@ -89,8 +102,6 @@ map<up> :res -5<CR>
 map<down> :res +5<CR>
 map<left> :vertical resize+5<CR>
 map<right> :vertical resize-5<CR>
-
-
 
 map s <nop>
 map S :w<CR>
