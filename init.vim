@@ -1,8 +1,7 @@
-
 source ~/.config/nvim/path.vim
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
-" - Avoid using standard Vim directory names like 'plugin'
+" " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.vim/plugged')
 
 " Make sure you use single quotes
@@ -45,6 +44,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-syntastic/syntastic'
+
 " Initialize plugin system
 call plug#end()
 
@@ -104,6 +104,8 @@ noremap B 5b
 " Duplicate words
 noremap <LEADER>fd /\(\<\w\+\>\)\_s*\1
 
+" Clear search highlight result until next search
+noremap <LEADER>c :noh<CR>
 " ===
 " === Insert Mode Cursor Movement
 " ===
@@ -112,7 +114,6 @@ inoremap <C-a> <ESC>A
 " ===
 " === Command Mode Cursor Movement
 " ===
-
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-p> <Up>
@@ -141,16 +142,29 @@ map<left> :vertical resize+5<CR>
 map<right> :vertical resize-5<CR>
 
 " Navigate through tabs
-map tu :tabe<CR>
+noremap tu :tabe<CR>
+noremap tU :tab split<CR>
 map th :-tabnext<CR>
-map tl :tabnext<CR>
+map tl :+tabnext<CR>
+noremap tmn :-tabmove<CR>
+noremap tmi :+tabmove<CR>
+noremap <leader>1 1gt
+noremap <leader>2 2gt
+noremap <leader>3 3gt
+noremap <leader>4 4gt
+noremap <leader>5 5gt
+noremap <leader>6 6gt
+noremap <leader>7 7gt
+noremap <leader>8 8gt
+noremap <leader>9 9gt
+noremap <leader>0 :tablast<cr>
 
 " Switch split modes (Vertical, Horizontal)
 map sv <C-w>t<C-w>H
 map sh <C-w>t<C-w>K
 
 " Save, Quit, Reload
-map s <nop>
+" map s <nop>
 map S :w<CR>
 map Q :q<CR>
 map R :source ~/.config/nvim/init.vim<CR>
