@@ -1,3 +1,5 @@
+
+source ~/.config/nvim/path.vim
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
@@ -47,7 +49,23 @@ Plug 'vim-syntastic/syntastic'
 call plug#end()
 
 " My Config
+set spell
 syntax on
+set nocompatible
+filetype on
+filetype indent on
+filetype plugin on
+filetype plugin indent on
+set mouse=a
+set encoding=utf-8
+let &t_ut=''
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set scrolloff=5
+set list
+set listchars=tab:>\
 set number
 set relativenumber
 set cursorline
@@ -59,15 +77,94 @@ set incsearch
 set ignorecase
 set smartcase
 syntax enable
-" colorscheme evening
 set termguicolors
 colorscheme dracula
 
 set splitright
 set splitbelow
 
-"Airline Coonfig
-let g:airline_theme = 'minimalist'
+"Key Mappings
+let mapleader = " "
+" Navigate matched results from search
+noremap = nzz
+noremap - Nzz
+" Navigate lines more quickly (5 lines each time)
+noremap J 5j
+noremap K 5k
+noremap H 0
+noremap L $
+
+noremap <C-k> 5<C-y>
+noremap <C-j> 5<C-e>
+
+" Navigate words more quickly (5 words each time)
+noremap W 5w
+noremap B 5b
+
+" Duplicate words
+noremap <LEADER>fd /\(\<\w\+\>\)\_s*\1
+
+" ===
+" === Insert Mode Cursor Movement
+" ===
+inoremap <C-a> <ESC>A
+
+" ===
+" === Command Mode Cursor Movement
+" ===
+
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <M-b> <S-Left>
+cnoremap <M-w> <S-Right>
+
+" Split Screen
+map sl :set splitright<CR>:vsplit<CR>
+map sh :set nosplitright<CR>:vsplit<CR>
+map sk :set nosplitbelow<CR>:split<CR>
+map sj :set splitbelow<CR>:split<CR>
+
+" Navigate  splitted screens
+map<LEADER><left> <C-w>h
+map<LEADER><right> <C-w>l
+map<LEADER><up> <C-w>k
+map<LEADER><down> <C-w>j
+
+" Adjust splitted screen size
+map<up> :res -5<CR>
+map<down> :res +5<CR>
+map<left> :vertical resize+5<CR>
+map<right> :vertical resize-5<CR>
+
+" Navigate through tabs
+map tu :tabe<CR>
+map th :-tabnext<CR>
+map tl :tabnext<CR>
+
+" Switch split modes (Vertical, Horizontal)
+map sv <C-w>t<C-w>H
+map sh <C-w>t<C-w>K
+
+" Save, Quit, Reload
+map s <nop>
+map S :w<CR>
+map Q :q<CR>
+map R :source ~/.config/nvim/init.vim<CR>
+
+" Insert a new line without entering insert mode
+nmap <LEADER>o o<ESC>
+nmap <LEADER>O O<ESC>
+
+" Toggle Spelling Check with <space>sc
+map <LEADER>sc :set spell!<CR>
+noremap <C-x> ea<C-x>s
+inoremap <C-x> <Esc>ea<C-x>s
+
+" let g:airline_theme = 'minimalist'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_experimental = 1
@@ -77,6 +174,8 @@ let g:airline_statusline_ontop = 0
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
 "Setup Syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -86,34 +185,6 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " Setup FZF
 set rtp+=/usr/local/opt/fzf
-"Key Mappings
-let mapleader = " "
-noremap = nzz
-noremap - Nzz
-noremap J 5j
-noremap K 5k
-noremap H 5h
-noremap L 5l
 
-map sl :set splitright<CR>:vsplit<CR>
-map sh :set nosplitright<CR>:vsplit<CR>
-map sk :set nosplitbelow<CR>:split<CR>
-map sj :set splitbelow<CR>:split<CR>
-
-map<LEADER><left> <C-w>h
-map<LEADER><right> <C-w>l
-map<LEADER><up> <C-w>k
-map<LEADER><down> <C-w>j
-
-map<up> :res -5<CR>
-map<down> :res +5<CR>
-map<left> :vertical resize+5<CR>
-map<right> :vertical resize-5<CR>
-
-map s <nop>
-map S :w<CR>
-map Q :q<CR>
-map R :source ~/.config/nvim/init.vim<CR>
