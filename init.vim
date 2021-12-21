@@ -1,6 +1,13 @@
+ " _____ _   _	_	_   _ _  __  __  __ ____   ____  ___   ___  ____  _____ 
+" |_   _| | | |  / \  | \ | | |/ / |  \/  |  _ \ / ___|/ _ \ / _ \/ ___|| ____|
+  " | | | |_| | / _ \ |  \| | ' /  | |\/| | |_) | |  _| | | | | | \___ \|  _|  
+  " | | |  _  |/ ___ \| |\  | . \  | |  | |  _ <| |_| | |_| | |_| |___) | |___ 
+  " |_| |_| |_/_/   \_\_| \_|_|\_\ |_|  |_|_| \_\\____|\___/ \___/|____/|_____|
+	"
 source ~/.config/nvim/path.vim
 " My Config
 " System 
+set ma
 set nocompatible
 let &t_ut=''
 set autochdir
@@ -106,15 +113,15 @@ nnoremap dy d%
 noremap <LEADER>fd /\(\<\w\+\>\)\_s*\1
 
 " Space to Tab
-nnoremap <LEADER>tt :%s/    /\t/g
-vnoremap <LEADER>tt :s/    /\t/
+nnoremap <LEADER>tt :%s/	/\t/g
+vnoremap <LEADER>tt :s/	/\t/
 
 " Folding
-noremap <silent> <LEADER>o za
+noremap <silent> <LEADER>z za
 
 " Clear search highlight result until next search
-noremap <LEADER>c :noh<CR>
-" === Insert Mode Cursor Movement
+nnoremap <LEADER>c :noh<CR>
+ "=== Insert Mode Cursor Movement
 inoremap <C-a> <ESC>A
 
 " === Command Mode Cursor Movement
@@ -134,10 +141,10 @@ map sk :set nosplitbelow<CR>:split<CR>
 map sj :set splitbelow<CR>:split<CR>
 
 " Navigate  splitted screens
-map<LEADER><left> <C-w>h
-map<LEADER><right> <C-w>l
-map<LEADER><up> <C-w>k
-map<LEADER><down> <C-w>j
+noremap<LEADER><left> <C-w>h
+noremap<LEADER><right> <C-w>l
+noremap<LEADER><up> <C-w>k
+noremap<LEADER><down> <C-w>j
 
 " Adjust splitted screen size
 map<up> :res  +5<CR>
@@ -164,8 +171,13 @@ noremap <leader>9 9gt
 noremap <leader>0 :tablast<cr>
 
 " Switch split modes (Vertical, Horizontal)
-map sv <C-w>t<C-w>H
-map sh <C-w>t<C-w>K
+noremap sv <C-w>t<C-w>H
+noremap sh <C-w>t<C-w>K
+
+" Navigate Buffers
+noremap <LEADER>bh :bprev<CR>
+noremap <LEADER>bl :bnext<CR>
+noremap <LEADER>bb :bd<CR>
 
 " Save, Quit, Reload
 " map s <nop>
@@ -173,12 +185,15 @@ map S :w<CR>
 map Q :q<CR>
 map R :source ~/.config/nvim/init.vim<CR>
 
+" Insert a space without quiting normal mode
+nnoremap ss i<space><esc>
+
 " Insert a new line without entering insert mode
-nmap <LEADER>o o<ESC>
-nmap <LEADER>O O<ESC>
+nnoremap <LEADER>o o<ESC>
+nnoremap <LEADER>O O<ESC>
 
 " Toggle Spelling Check with <space>sc
-map <LEADER>sc :set spell!<CR>
+" noremap <LEADER>sc :set spell!<CR>
 noremap <C-x> ea<C-x>s
 inoremap <C-x> <Esc>ea<C-x>s
 " Open a new instance of st with the cwd
@@ -205,7 +220,7 @@ noremap tx :r !figlet
 noremap \s :%s//g<left><left>
 
 " set wrap
-noremap <LEADER>sw :set wrap<CR>
+" noremap <LEADER>sw :set wrap<CR>
 
 
 " Specify a directory for plugins
@@ -224,6 +239,7 @@ Plug 'fatih/vim-go', { 'tag': '*' }
 Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug '~/my-prototype-plugin'
 Plug 'dracula/vim'
 Plug 'ryanoasis/vim-devicons'
@@ -236,7 +252,13 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-syntastic/syntastic'
-
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+Plug 'mbbill/undotree'
+Plug 'tpope/vim-surround'
+Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'bagrat/vim-buffet'
 " Initialize plugin system
 call plug#end()
 
@@ -244,7 +266,7 @@ set termguicolors
 colorscheme dracula
 
 " coc.nvim config
-let g:coc_global_extensions = [
+" let g:coc_global_extensions = [
 	\ 'coc-css',
 	\ 'coc-diagnostic',
 	\ 'coc-docker',
@@ -267,7 +289,6 @@ let g:coc_global_extensions = [
 	\ 'coc-syntax',
 	\ 'coc-tailwindcss',
 	\ 'coc-tasks',
-	\ 'coc-translator',
 	\ 'coc-tsserver',
 	\ 'coc-vetur',
 	\ 'coc-vimlsp',
@@ -281,9 +302,9 @@ set hidden
 set updatetime=100
 set shortmess+=c
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+	  \ pumvisible() ? "\<C-n>" :
+	  \ <SID>check_back_space() ? "\<TAB>" :
+	  \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
@@ -295,7 +316,7 @@ inoremap <silent><expr> <c-o> coc#refresh()
 " Make <CR> auto-select the first completion item and notify coc.nvim to
 " format on enter, <cr> could be remapped by other vim plugin
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+							  \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.															
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -308,11 +329,11 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> <LEADER>h :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
+	execute 'h '.expand('<cword>')
   elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
+	call CocActionAsync('doHover')
   else
-    execute '!' . &keywordprg . " " . expand('<cword>')
+	execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
 " Highlight the symbol and its references when holding the cursor.
@@ -368,46 +389,29 @@ xmap <silent> <C-s> <Plug>(coc-range-select)
 command! -nargs=0 Format :call CocAction('format')
 
 " Add `:Fold` command to fold current buffer.
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+command! -nargs=? Fold :call	 CocAction('fold', <f-args>)
 
 " Add `:OR` command for organize imports of the current buffer.
-command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR   :call	 CocActionAsync('runCommand', 'editor.action.organizeImport')
 
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
-" Mappings for CoCList
-" Show all diagnostics.
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions.
-nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
-" Show commands.
-nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document.
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols.
-nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item.
-nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item.
-nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list.
-nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
-
 " let g:airline_theme = 'minimalist'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_experimental = 1
 let g:airline_statusline_ontop = 0
-"Setup NerdTree
+
+" Setup NerdTree
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
-"Setup Syntastic
+" Setup Syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -415,7 +419,98 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+" ===
+" === FZF
+" ===
+nnoremap <c-p> :Leaderf file<CR>
+" noremap <silent> <C-p> :Files<CR>
+noremap <silent> <C-f> :Rg<CR>
+noremap <silent> <C-h> :History<CR>
+"noremap <C-t> :BTags<CR>
+" noremap <silent> <C-l> :Lines<CR>
+noremap <silent> <C-w> :Buffers<CR>
+noremap <leader>; :History:<CR>
 
-" Setup FZF
-set rtp+=/usr/local/opt/fzf
+let g:fzf_preview_window = 'right:60%'
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
+function! s:list_buffers()
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+
+function! s:delete_buffers(lines)
+  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+
+command! BD call fzf#run(fzf#wrap({
+  \ 'source': s:list_buffers(),
+  \ 'sink*': { lines -> s:delete_bufers(lines) },
+  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+\ }))
+
+noremap <c-d> :BD<CR>
+
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
+" === Leaderf
+" ===
+let g:Lf_UseCache = 0
+let g:Lf_UseVersionControlTool = 0
+let g:Lf_IgnoreCurrentBufferName = 1
+" popup mode
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
+let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+
+" Undo Tree
+nnoremap <LEADER>u :UndotreeToggle<CR>
+noremap <LEADER>gu <C-w>h<C-w>k
+noremap L :UndotreeToggle<CR>
+let g:undotree_DiffAutoOpen = 1
+let g:undotree_SetFocusWhenToggle = 1
+let g:undotree_ShortIndicators = 1
+let g:undotree_WindowLayout = 2
+let g:undotree_DiffpanelHeight = 8
+let g:undotree_SplitWidth = 24
+function g:Undotree_CustomMap()
+	nmap <buffer> u <plug>UndotreeNextState
+	nmap <buffer> e <plug>UndotreePreviousState
+	nmap <buffer> U 5<plug>UndotreeNextState
+	nmap <buffer> E 5<plug>UndotreePreviousState
+endfunc
+"NerdTree
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+" Start NERDTree and put the cursor back in the other window.
+autocmd VimEnter * NERDTree | wincmd p
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+" Open the existing NERDTree on each new tab.
+autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+
+" NerdTree Syntax Highlight
+let g:WebDevIconsDisableDefaultFolderSymbolColorFromNERDTreeDir = 1
+let g:WebDevIconsDisableDefaultFileSymbolColorFromNERDTreeFile = 1
+let g:NERDTreeFileExtensionHighlightFullName = 1
+let g:NERDTreeExactMatchHighlightFullName = 1
+let g:NERDTreePatternMatchHighlightFullName = 1
+let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1
+" NerdTree Git status nerdtree-git-plugin
+let g:NERDTreeGitStatusUseNerdFonts = 1
+let g:NERDTreeGitStatusConcealBrackets = 1
+" Vim Easy ALign
+"" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
