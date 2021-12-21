@@ -258,6 +258,7 @@ Plug 'tpope/vim-surround'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tpope/vim-fugitive'
 " Plug 'bagrat/vim-buffet'
 " Initialize plugin system
 call plug#end()
@@ -294,6 +295,7 @@ colorscheme dracula
 	\ 'coc-vimlsp',
 	\ 'coc-yaml',
 	\ 'coc-yank',
+	\ 'coc-metals',
 	\ 'https://github.com/rodrigore/coc-tailwind-intellisense']
 set hidden
 " set nobackup
@@ -466,13 +468,12 @@ let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu S
 let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
 
 " Undo Tree
+let g:undotree_WindowLayout = 3
 nnoremap <LEADER>u :UndotreeToggle<CR>
 noremap <LEADER>gu <C-w>h<C-w>k
-noremap L :UndotreeToggle<CR>
 let g:undotree_DiffAutoOpen = 1
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_ShortIndicators = 1
-let g:undotree_WindowLayout = 2
 let g:undotree_DiffpanelHeight = 8
 let g:undotree_SplitWidth = 24
 function g:Undotree_CustomMap()
