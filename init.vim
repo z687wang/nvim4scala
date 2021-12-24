@@ -135,7 +135,7 @@ map sh :set nosplitright<CR>:vsplit<CR>
 map sk :set nosplitbelow<CR>:split<CR>
 map sj :set splitbelow<CR>:split<CR>
 
-" Navigate  splitted screens
+" Navigate  splitted screes
 noremap<LEADER><left> <C-w>h
 noremap<LEADER><right> <C-w>l
 noremap<LEADER><up> <C-w>k
@@ -188,7 +188,7 @@ nnoremap <LEADER>o o<ESC>
 nnoremap <LEADER>O O<ESC>
 
 " Toggle Spelling Check with <space>sc
-" noremap <LEADER>sc :set spell!<CR>
+" noremap<LEADER>sc :set spell!<CR>
 noremap <C-x> ea<C-x>s
 inoremap <C-x> <Esc>ea<C-x>s
 " Open a new instance of st with the cwd
@@ -217,7 +217,6 @@ noremap \s :%s//g<left><left>
 " set wrap
 " noremap <LEADER>sw :set wrap<CR>
 
-
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
 " " - Avoid using standard Vim directory names like 'plugin'
@@ -237,7 +236,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'dracula/vim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'scrooloose/nerdtree'
 Plug 'preservim/nerdcommenter'
 Plug 'mhinz/vim-startify'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -247,8 +245,6 @@ Plug 'vim-syntastic/syntastic'
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-surround'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-fugitive'
 Plug 'preservim/tagbar'
 Plug 'universal-ctags/ctags.git'
@@ -268,6 +264,7 @@ colorscheme dracula
 	\ 'coc-explorer',
 	\ 'coc-flutter-tools',
 	\ 'coc-gitignore',
+	\ 'coc-git',
 	\ 'coc-html',
 	\ 'coc-import-cost',
 	\ 'coc-java',
@@ -288,11 +285,12 @@ colorscheme dracula
 	\ 'coc-vimlsp',
 	\ 'coc-yaml',
 	\ 'coc-yank',
+	\ 'coc-explorer',
 	\ 'coc-metals',
 	\ 'https://github.com/rodrigore/coc-tailwind-intellisense']
+
+" CoC Settings
 set hidden
-" set nobackup
-" set nowritebackup
 " set cmdheight=2
 set updatetime=100
 set shortmess+=c
@@ -394,6 +392,9 @@ command! -nargs=0 OR   :call	 CocActionAsync('runCommand', 'editor.action.organi
 " provide custom statusline: lightline.vim, vim-airline.
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
+" Coc Yank
+nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+" Airline Config
 " let g:airline_theme = 'minimalist'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
@@ -471,33 +472,6 @@ function g:Undotree_CustomMap()
 	nmap <buffer> E 5<plug>UndotreePreviousState
 endfunc
 
-"NerdTree
-nnoremap <leader>n :NERDTreeFocus<CR>
-" nnoremap <C-n> :NERDTree<CR>
-nnoremap <C-t> :NERDTreeToggle<CR>
-nnoremap <C-f> :NERDTreeFind<CR>
-" Exit Vim if NERDTree is the only window remaining in the only tab.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-" Close the tab if NERDTree is the only window remaining in it.
-autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
-autocmd BufEnter * if winnr() == winnr('h') && bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
-    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
-" Open the existing NERDTree on each new tab.
-" autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
-
-" NerdTree Syntax Highlight
-let g:WebDevIconsDisableDefaultFolderSymbolColorFromNERDTreeDir = 1
-let g:WebDevIconsDisableDefaultFileSymbolColorFromNERDTreeFile = 1
-let g:NERDTreeFileExtensionHighlightFullName = 1
-let g:NERDTreeExactMatchHighlightFullName = 1
-let g:NERDTreePatternMatchHighlightFullName = 1
-let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
-let g:NERDTreeHighlightFoldersFullName = 1
-" NerdTree Git status nerdtree-git-plugin
-let g:NERDTreeGitStatusUseNerdFonts = 1
-let g:NERDTreeGitStatusConcealBrackets = 1
-
 " Vim Easy ALign
 "" Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
@@ -524,3 +498,61 @@ nnoremap <silent> <space>tc :<C-u>CocCommand metals.tvp metalsCompile<CR>
 nnoremap <silent> <space>tb :<C-u>CocCommand metals.tvp metalsBuild<CR>
 " Reveal current current class (trait or object) in Tree View 'metalsPackages'
 nnoremap <silent> <space>tf :<C-u>CocCommand metals.revealInTreeView metalsPackages<CR>
+
+" coc-explorer
+:nmap <space>e <Cmd>CocCommand explorer<CR>
+let g:coc_explorer_global_presets = {
+\   '.nvim': {
+\     'root-uri': '~/.config/nvim',
+\   },
+\   'cocConfig': {
+\      'root-uri': '~/.config/coc',
+\   },
+\   'tab': {
+\     'position': 'tab',
+\     'quit-on-open': v:true,
+\   },
+\   'tab:$': {
+\     'position': 'tab:$',
+\     'quit-on-open': v:true,
+\   },
+\   'floating': {
+\     'position': 'floating',
+\     'open-action-strategy': 'sourceWindow',
+\   },
+\   'floatingTop': {
+\     'position': 'floating',
+\     'floating-position': 'center-top',
+\     'open-action-strategy': 'sourceWindow',
+\   },
+\   'floatingLeftside': {
+\     'position': 'floating',
+\     'floating-position': 'left-center',
+\     'floating-width': 50,
+\     'open-action-strategy': 'sourceWindow',
+\   },
+\   'floatingRightside': {
+\     'position': 'floating',
+\     'floating-position': 'right-center',
+\     'floating-width': 50,
+\     'open-action-strategy': 'sourceWindow',
+\   },
+\   'simplify': {
+\     'file-child-template': '[selection | clip | 1] [indent][icon | 1] [filename omitCenter 1]'
+\   },
+\   'buffer': {
+\     'sources': [{'name': 'buffer', 'expand': v:true}]
+\   },
+\		'file': {
+\			'child-labeling-template': '[fullpath][link][diagnosticWarning][diagnosticError][size][timeAccessed][timeModified][timeCreated][readonly][modified]'
+\	  }
+\ }
+
+" Use preset argument to open it
+nmap <space>ed <Cmd>CocCommand explorer --preset .nvim<CR>
+nmap <space>ef <Cmd>CocCommand explorer --preset floating<CR>
+nmap <space>ec <Cmd>CocCommand explorer --preset cocConfig<CR>
+nmap <space>eb <Cmd>CocCommand explorer --preset buffer<CR>
+
+" List all presets
+nmap <space>el <Cmd>CocList explPresets<CR>
