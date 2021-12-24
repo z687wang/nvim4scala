@@ -1,5 +1,13 @@
 {
 	"coc.preferences.extensionUpdateCheck": "never",
 	"suggest.noselect": true,
-	"suggest.engablePreselect": false
+	"suggest.engablePreselect": false,
+	"metals": {
+		"statusBarEnabled": true,
+		"showImplicitArguments": true,
+		"showImplicitConversionsAndClasses": true,
+		"enableIndentOnPaste": true,
+		"superMethodLensesEnabled": true,
+		"showInferredType": true
+	}
 }
