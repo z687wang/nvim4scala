@@ -1,4 +1,4 @@
- " _____ _   _	_	_   _ _  __  __  __ ____   ____  ___   ___  ____  _____ 
+" _____ _   _	_	_   _ _  __  __  __ ____   ____  ___   ___  ____  _____ 
 " |_   _| | | |  / \  | \ | | |/ / |  \/  |  _ \ / ___|/ _ \ / _ \/ ___|| ____|
   " | | | |_| | / _ \ |  \| | ' /  | |\/| | |_) | |  _| | | | | | \___ \|  _|  
   " | | |  _  |/ ___ \| |\  | . \  | |  | |  _ <| |_| | |_| | |_| |___) | |___ 
@@ -121,18 +121,13 @@ noremap <silent> <LEADER>z za
 
 " Clear search highlight result until next search
 nnoremap <LEADER>c :noh<CR>
+
  "=== Insert Mode Cursor Movement
 inoremap <C-a> <ESC>A
 
 " === Command Mode Cursor Movement
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-cnoremap <C-b> <Left>
-cnoremap <C-f> <Right>
-cnoremap <M-b> <S-Left>
-cnoremap <M-w> <S-Right>
 
 " Split Screen
 map sl :set splitright<CR>:vsplit<CR>
@@ -240,11 +235,8 @@ Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug '~/my-prototype-plugin'
 Plug 'dracula/vim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
 Plug 'scrooloose/nerdtree'
 Plug 'preservim/nerdcommenter'
 Plug 'mhinz/vim-startify'
@@ -255,10 +247,11 @@ Plug 'vim-syntastic/syntastic'
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-surround'
-Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-fugitive'
+Plug 'preservim/tagbar'
+Plug 'universal-ctags/ctags.git'
 " Plug 'bagrat/vim-buffet'
 " Initialize plugin system
 call plug#end()
@@ -407,12 +400,6 @@ let g:airline_powerline_fonts = 1
 let g:airline_experimental = 1
 let g:airline_statusline_ontop = 0
 
-" Setup NerdTree
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
 " Setup Syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -456,6 +443,7 @@ command! BD call fzf#run(fzf#wrap({
 noremap <c-d> :BD<CR>
 
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
+
 " === Leaderf
 " ===
 let g:Lf_UseCache = 0
@@ -482,22 +470,21 @@ function g:Undotree_CustomMap()
 	nmap <buffer> U 5<plug>UndotreeNextState
 	nmap <buffer> E 5<plug>UndotreePreviousState
 endfunc
+
 "NerdTree
 nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <C-n> :NERDTree<CR>
+" nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
-" Start NERDTree and put the cursor back in the other window.
-autocmd VimEnter * NERDTree | wincmd p
 " Exit Vim if NERDTree is the only window remaining in the only tab.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 " Close the tab if NERDTree is the only window remaining in it.
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
-autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+autocmd BufEnter * if winnr() == winnr('h') && bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
     \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
 " Open the existing NERDTree on each new tab.
-autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
+" autocmd BufWinEnter * if getcmdwintype() == '' | silent NERDTreeMirror | endif
 
 " NerdTree Syntax Highlight
 let g:WebDevIconsDisableDefaultFolderSymbolColorFromNERDTreeDir = 1
@@ -510,8 +497,30 @@ let g:NERDTreeHighlightFoldersFullName = 1
 " NerdTree Git status nerdtree-git-plugin
 let g:NERDTreeGitStatusUseNerdFonts = 1
 let g:NERDTreeGitStatusConcealBrackets = 1
+
 " Vim Easy ALign
 "" Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+
+" Tagbar
+nmap <C-G> :TagbarToggle<CR>
+let g:tagbar_map_showproto = 'd'
+
+" Coc Metals
+" Help Vim recognize *.sbt and *.sc as Scala files
+au BufRead,BufNewFile *.sbt,*.sc set filetype=scala
+" Used to expand decorations in worksheets
+nmap <Leader>ws <Plug>(coc-metals-expand-decoration)
+
+" Toggle panel with Tree Views
+nnoremap <silent> <space>t :<C-u>CocCommand metals.tvp<CR>
+" Toggle Tree View 'metalsPackages'
+nnoremap <silent> <space>tp :<C-u>CocCommand metals.tvp metalsPackages<CR>
+" Toggle Tree View 'metalsCompile'
+nnoremap <silent> <space>tc :<C-u>CocCommand metals.tvp metalsCompile<CR>
+" Toggle Tree View 'metalsBuild'
+nnoremap <silent> <space>tb :<C-u>CocCommand metals.tvp metalsBuild<CR>
+" Reveal current current class (trait or object) in Tree View 'metalsPackages'
+nnoremap <silent> <space>tf :<C-u>CocCommand metals.revealInTreeView metalsPackages<CR>
