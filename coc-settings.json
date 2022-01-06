@@ -1,4 +1,20 @@
 {
+	"languageserver": {
+		"ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
+      "rootPatterns": [".ccls-root", "compile_commands.json"],
+      "initializationOptions": {
+        "cache": {
+          "directory": ".ccls-cache"
+        },
+        "client": {
+          "snippetSupport": true
+        }
+      }
+    }
+  }
+  },
 	"coc.preferences.extensionUpdateCheck": "never",
 	"suggest.noselect": true,
 	"suggest.engablePreselect": false,
@@ -10,13 +26,16 @@
 		"superMethodLensesEnabled": true,
 		"showInferredType": true
 	},
-  "explorer.icon.source": "vim-devicons",
-	"explorer.width": 30,
-	"explorer.file.showHiddenFiles": true,
-	"explorer.previewAction.onHover": true,
-	"explorer.icon.source": "vim-devicons",
-  "explorer.icon.enableNerdfont": true,
-	"explorer.file.child.template": "[git | 2] [selection | clip | 1] [indent][icon | 1] [diagnosticError & 1][filename omitCenter 1][modified][readonly] [linkIcon & 1][link growRight 1 omitCenter 5]",
-	"explorer.buffer.root.template": "[icon & 1] OPEN EDITORS",
-	"explorer.file.root.template": "[icon & 1] PROJECT ([root])"
+	"explorer": {
+		"icon.source": "vim-devicons",
+		"width": 30,
+		"file.showHiddenFiles": true,
+		"previewAction.onHover": true,
+		"icon.source": "builtin",
+		"autoExpandOptions": ["compact", "uncompact"],
+		"icon.enableNerdfont": true,
+		"file.child.template": "[git | 2] [selection | clip | 1] [indent][icon | 1] [diagnosticError & 1][filename omitCenter 1][modified][readonly] [linkIcon & 1][link growRight 1 omitCenter 5]",
+		"buffer.root.template": "[icon & 1] OPEN EDITORS",
+		"file.root.template": "[icon & 1] PROJECT ([root])"
+	}
 }
