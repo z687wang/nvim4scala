@@ -250,6 +250,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'preservim/tagbar'
 Plug 'universal-ctags/ctags.git'
 Plug 'jmcantrell/vim-virtualenv'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
 " Plug 'bagrat/vim-buffet'
 " Initialize plugin system
 call plug#end()
@@ -259,6 +260,7 @@ colorscheme dracula
 
 " coc.nvim config
 " let g:coc_global_extensions = [
+  \ 'coc-clangd',
 	\ 'coc-css',
 	\ 'coc-diagnostic',
 	\ 'coc-docker',
@@ -327,6 +329,7 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.															
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -410,6 +413,7 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Coc Yank
 nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+
 " Airline Config
 " let g:airline_theme = 'minimalist'
 let g:airline#extensions#tabline#enabled = 1
@@ -425,17 +429,17 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
 " ===
 " === FZF
 " ===
-nnoremap <c-p> :Leaderf file<CR>
-" noremap <silent> <C-p> :Files<CR>
-noremap <silent> <C-f> :Rg<CR>
+nnoremap <c-f> :Leaderf file<CR>
 noremap <silent> <C-h> :History<CR>
-"noremap <C-t> :BTags<CR>
-" noremap <silent> <C-l> :Lines<CR>
+noremap <C-t> :BTags<CR>
+noremap <silent> <C-l> :Lines<CR>
 noremap <silent> <C-w> :Buffers<CR>
 noremap <leader>; :History:<CR>
+noremap <leader>m :Maps<CR>
 
 let g:fzf_preview_window = 'right:60%'
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
@@ -457,7 +461,7 @@ command! BD call fzf#run(fzf#wrap({
   \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
 \ }))
 
-noremap <c-d> :BD<CR>
+" noremap <c-d> :BD<CR>
 
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
 
