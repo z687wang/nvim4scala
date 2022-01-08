@@ -171,9 +171,9 @@ noremap sv <C-w>t<C-w>H
 noremap sh <C-w>t<C-w>K
 
 " Navigate Buffers
-noremap <LEADER>bh :bprev<CR>
-noremap <LEADER>bl :bnext<CR>
-noremap <LEADER>bb :bd<CR>
+noremap bh :bprev<CR>
+noremap bl :bnext<CR>
+noremap bb :bd<CR>
 
 " Save, Quit, Reload
 " map s <nop>
@@ -259,7 +259,7 @@ set termguicolors
 colorscheme dracula
 
 " coc.nvim config
-" let g:coc_global_extensions = [
+let g:coc_global_extensions = [
   \ 'coc-clangd',
 	\ 'coc-css',
 	\ 'coc-diagnostic',
@@ -292,6 +292,8 @@ colorscheme dracula
 	\ 'coc-yank',
 	\ 'coc-explorer',
 	\ 'coc-metals',
+	\ 'coc-java',
+	\ 'coc-java-debug',
 	\ 'https://github.com/rodrigore/coc-tailwind-intellisense']
 
 " CoC Settings
@@ -329,7 +331,6 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.															
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -353,6 +354,10 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming.
 nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>fm  <Plug>(coc-format-selected)
+nmap <leader>fm  <Plug>(coc-format-selected
 
 augroup mygroup
   autocmd!
@@ -382,13 +387,14 @@ xmap ic <Plug>(coc-classobj-i)
 omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
+
 " Remap <C-f> and <C-b> for scroll float windows/popups.
 if has('nvim-0.4.0') || has('patch-8.2.0750')
   nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
   nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
   inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
   inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
@@ -409,10 +415,14 @@ command! -nargs=0 OR   :call	 CocActionAsync('runCommand', 'editor.action.organi
 " Add (Neo)Vim's native statusline support.
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline.
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+let g:airline#extensions#coc#enabled = 1
 
 " Coc Yank
 nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
+
+" Coc Codelens
+nmap <LEADER>cl <Plug>(coc-codelens-action)
 
 " Airline Config
 " let g:airline_theme = 'minimalist'
@@ -433,11 +443,7 @@ let g:syntastic_check_on_wq = 0
 " ===
 " === FZF
 " ===
-nnoremap <c-f> :Leaderf file<CR>
 noremap <silent> <C-h> :History<CR>
-noremap <C-t> :BTags<CR>
-noremap <silent> <C-l> :Lines<CR>
-noremap <silent> <C-w> :Buffers<CR>
 noremap <leader>; :History:<CR>
 noremap <leader>m :Maps<CR>
 
@@ -466,15 +472,37 @@ command! BD call fzf#run(fzf#wrap({
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
 
 " === Leaderf
-" ===
+" ==
+let g:Lf_WorkingDirectoryMode = 'Ac'
 let g:Lf_UseCache = 0
-let g:Lf_UseVersionControlTool = 0
-let g:Lf_IgnoreCurrentBufferName = 1
+let g:Lf_UseVersionControlTool = 1
+let g:Lf_IgnoreCurrentBufferName = 0 
 " popup mode
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
 let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "DejaVu Sans Mono for Powerline" }
 let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+
+let g:Lf_ShortcutF = "<leader>ff"
+noremap <leader>fb :<C-U><C-R>=printf("Leaderf buffer %s", "")<CR><CR>
+noremap <leader>fm :<C-U><C-R>=printf("Leaderf mru %s", "")<CR><CR>
+noremap <leader>ft :<C-U><C-R>=printf("Leaderf bufTag %s", "")<CR><CR>
+noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
+
+noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
+noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+" search visually selected text literally
+xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
+noremap go :<C-U>Leaderf! rg --recall<CR>
+
+" should use `Leaderf gtags --update` first
+let g:Lf_GtagsAutoGenerate = 0
+let g:Lf_Gtagslabel = 'native-pygments'
+noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
+noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
 " Undo Tree
 let g:undotree_WindowLayout = 3
@@ -501,6 +529,22 @@ nmap ga <Plug>(EasyAlign)
 " Tagbar
 nmap <C-G> :TagbarToggle<CR>
 let g:tagbar_map_showproto = 'd'
+let g:tagbar_type_scala = {
+    \ 'ctagstype' : 'scala',
+    \ 'sro'       : '.',
+    \ 'kinds'     : [
+      \ 'p:packages',
+      \ 'T:types:1',
+      \ 't:traits',
+      \ 'o:objects',
+      \ 'O:case objects',
+      \ 'c:classes',
+      \ 'C:case classes',
+      \ 'm:methods',
+      \ 'V:values:1',
+      \ 'v:variables:1'
+    \ ]
+\ }
 
 " Coc Metals
 " Help Vim recognize *.sbt and *.sc as Scala files
@@ -577,6 +621,11 @@ nmap <space>eb <Cmd>CocCommand explorer --preset buffer<CR>
 " List all presets
 nmap <space>el <Cmd>CocList explPresets<CR>
 
+" Auto Close Coc-explorer if it is the last window left
+autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
+
+" Ultisnips
+let g:UltiSnipsExpandTrigger = "<nop>"
 
 " Dim inactive windows using 'colorcolumn' setting
 " This tends to slow down redrawing, but is very useful.

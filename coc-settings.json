@@ -1,23 +1,10 @@
 {
-	"languageserver": {
-		"ccls": {
-      "command": "ccls",
-      "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
-      "rootPatterns": [".ccls-root", "compile_commands.json"],
-      "initializationOptions": {
-        "cache": {
-          "directory": ".ccls-cache"
-        },
-        "client": {
-          "snippetSupport": true
-        }
-      }
-    }
-  }
-  },
 	"coc.preferences.extensionUpdateCheck": "never",
 	"suggest.noselect": true,
 	"suggest.engablePreselect": false,
+	"codeLens.enable": true,
+	"java.referencesCodeLens.enabled": true,
+	"java.jdt.ls.vmargs": "-javaagent:/usr/local/share/lombok/lombok.jar",
 	"metals": {
 		"statusBarEnabled": true,
 		"showImplicitArguments": true,
@@ -37,5 +24,7 @@
 		"file.child.template": "[git | 2] [selection | clip | 1] [indent][icon | 1] [diagnosticError & 1][filename omitCenter 1][modified][readonly] [linkIcon & 1][link growRight 1 omitCenter 5]",
 		"buffer.root.template": "[icon & 1] OPEN EDITORS",
 		"file.root.template": "[icon & 1] PROJECT ([root])"
-	}
+	},
+	"clangd.semanticHighlighting": true,
+  "coc.preferences.semanticTokensHighlights": false
 }
