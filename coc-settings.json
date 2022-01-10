@@ -1,10 +1,20 @@
 {
 	"coc.preferences.extensionUpdateCheck": "never",
+	"coc.preferences.formatOnType": true,
+	"diagnostic.autoRefresh": true,
+	"coc.preferences.formatOnSaveFiletypes": ["css", "markdown", "java", "scala", "python"],
 	"suggest.noselect": true,
 	"suggest.engablePreselect": false,
 	"codeLens.enable": true,
-	"java.referencesCodeLens.enabled": true,
-	"java.jdt.ls.vmargs": "-javaagent:/usr/local/share/lombok/lombok.jar",
+	"java": {
+		"referencesCodeLens.enabled": true,
+		"jdt.ls.vmargs": "-javaagent:/usr/local/share/lombok/lombok.jar"
+	},
+	"python": {
+		"referencesCodeLens.enabled": true,
+		"linting.enabled": true,
+		"linting.pylintEnabled": true
+	},
 	"metals": {
 		"statusBarEnabled": true,
 		"showImplicitArguments": true,

@@ -6,7 +6,7 @@
 	"
 source ~/.config/nvim/path.vim
 " My Config
-" System 
+" System
 set ma
 set nocompatible
 let &t_ut=''
@@ -167,13 +167,13 @@ noremap <leader>9 9gt
 noremap <leader>0 :tablast<cr>
 
 " Switch split modes (Vertical, Horizontal)
-noremap sv <C-w>t<C-w>H
-noremap sh <C-w>t<C-w>K
+noremap swv <C-w>t<C-w>H
+noremap swh <C-w>t<C-w>K
 
 " Navigate Buffers
-noremap bh :bprev<CR>
-noremap bl :bnext<CR>
-noremap bb :bd<CR>
+noremap <leader>bh :bprev<CR>
+noremap <leader>bl :bnext<CR>
+noremap <leader>bb :bd<CR>
 
 " Save, Quit, Reload
 " map s <nop>
@@ -192,6 +192,7 @@ nnoremap <LEADER>O O<ESC>
 " noremap<LEADER>sc :set spell!<CR>
 noremap <C-x> ea<C-x>s
 inoremap <C-x> <Esc>ea<C-x>s
+
 " Open a new instance of st with the cwd
 nnoremap \t :tabe<CR>:-tabmove<CR>:term sh -c 'st'<CR><C-\><C-N>:q<CR>
 
@@ -251,6 +252,8 @@ Plug 'preservim/tagbar'
 Plug 'universal-ctags/ctags.git'
 Plug 'jmcantrell/vim-virtualenv'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'akinsho/toggleterm.nvim'
+Plug 'morhetz/gruvbox'
 " Plug 'bagrat/vim-buffet'
 " Initialize plugin system
 call plug#end()
@@ -328,7 +331,7 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.															
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 " GoTo code navigation.
@@ -424,6 +427,18 @@ nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 " Coc Codelens
 nmap <LEADER>cl <Plug>(coc-codelens-action)
 
+" Coc List
+nnoremap <LEADER>dg :<c-u>CocList diagnostics<cr>
+nnoremap <LEADER>cm :<C-u>CocList commands<cr>
+nnoremap <LEADER>ol :<C-u>CocList outline<cr>
+nnoremap <LEADER>et :<C-u>CocList extensions<cr>
+nnoremap <LEADER>ht :<C-u>CocList helptags<cr>
+nnoremap <LEADER>tg :<C-u>CocList tags<cr>
+nnoremap <LEADER>sn :<C-u>CocList snippets<cr>
+nnoremap <LEADER>j :<C-u>CocNext<cr>
+nnoremap <LEADER>k :<C-u>CocPrev<cr>
+nnoremap <LEADER>p :<C-u>CocListResume<cr>
+
 " Airline Config
 " let g:airline_theme = 'minimalist'
 let g:airline#extensions#tabline#enabled = 1
@@ -477,6 +492,7 @@ let g:Lf_WorkingDirectoryMode = 'Ac'
 let g:Lf_UseCache = 0
 let g:Lf_UseVersionControlTool = 1
 let g:Lf_IgnoreCurrentBufferName = 0 
+
 " popup mode
 let g:Lf_WindowPosition = 'popup'
 let g:Lf_PreviewInPopup = 1
@@ -491,6 +507,7 @@ noremap <leader>fl :<C-U><C-R>=printf("Leaderf line %s", "")<CR><CR>
 
 noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
 noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+
 " search visually selected text literally
 xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F -e %s ", leaderf#Rg#visual())<CR>
 noremap go :<C-U>Leaderf! rg --recall<CR>
@@ -498,11 +515,11 @@ noremap go :<C-U>Leaderf! rg --recall<CR>
 " should use `Leaderf gtags --update` first
 let g:Lf_GtagsAutoGenerate = 0
 let g:Lf_Gtagslabel = 'native-pygments'
-noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
-noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
-noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
-noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
-noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
+ " noremap <leader>fr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+ " noremap <leader>fd :<C-U><C-R>=printf("Leaderf! gtags -d %s --auto-jump", expand("<cword>"))<CR><CR>
+ " noremap <leader>fo :<C-U><C-R>=printf("Leaderf! gtags --recall %s", "")<CR><CR>
+ " noremap <leader>fn :<C-U><C-R>=printf("Leaderf gtags --next %s", "")<CR><CR>
+ " noremap <leader>fp :<C-U><C-R>=printf("Leaderf gtags --previous %s", "")<CR><CR>
 
 " Undo Tree
 let g:undotree_WindowLayout = 3
@@ -523,6 +540,7 @@ endfunc
 " Vim Easy ALign
 "" Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
+
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
@@ -549,6 +567,7 @@ let g:tagbar_type_scala = {
 " Coc Metals
 " Help Vim recognize *.sbt and *.sc as Scala files
 au BufRead,BufNewFile *.sbt,*.sc set filetype=scala
+
 " Used to expand decorations in worksheets
 nmap <Leader>ws <Plug>(coc-metals-expand-decoration)
 
@@ -630,7 +649,7 @@ let g:UltiSnipsExpandTrigger = "<nop>"
 " Dim inactive windows using 'colorcolumn' setting
 " This tends to slow down redrawing, but is very useful.
 " Based on https://groups.google.com/d/msg/vim_use/IJU-Vk-QLJE/xz4hjPjCRBUJ
-" XXX: this will only work with lines containing text (i.e. not '~')
+" this will only work with lines containing text (i.e. not '~')
 " from 
 if exists('+colorcolumn')
   function! s:DimInactiveWindows()
@@ -658,3 +677,5 @@ if exists('+colorcolumn')
     au WinLeave * set nocursorline
   augroup END
 endif
+
+" Toggleterm
