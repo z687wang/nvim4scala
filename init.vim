@@ -1,4 +1,4 @@
-" _____ _   _	_	_   _ _  __  __  __ ____   ____  ___   ___  ____  _____ 
+"  _____ _   _	_	_   _ _  __  __  __ ____   ____  ___   ___  ____  _____ 
 " |_   _| | | |  / \  | \ | | |/ / |  \/  |  _ \ / ___|/ _ \ / _ \/ ___|| ____|
   " | | | |_| | / _ \ |  \| | ' /  | |\/| | |_) | |  _| | | | | | \___ \|  _|  
   " | | |  _  |/ ___ \| |\  | . \  | |  | |  _ <| |_| | |_| | |_| |___) | |___ 
@@ -23,12 +23,11 @@ set secure
 set number
 set relativenumber
 set cursorline
-set hidden
 set mouse=a
-set noexpandtab
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set softtabstop=4
+set tabstop=4
+set shiftwidth=4
+set expandtab
 set autoindent
 set list
 set listchars=tab:\|\ ,trail:▫
@@ -254,6 +253,7 @@ Plug 'jmcantrell/vim-virtualenv'
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'akinsho/toggleterm.nvim'
 Plug 'morhetz/gruvbox'
+Plug 'kassio/neoterm'
 " Plug 'bagrat/vim-buffet'
 " Initialize plugin system
 call plug#end()
@@ -297,6 +297,7 @@ let g:coc_global_extensions = [
 	\ 'coc-metals',
 	\ 'coc-java',
 	\ 'coc-java-debug',
+	\ 'coc-sourcekit',
 	\ 'https://github.com/rodrigore/coc-tailwind-intellisense']
 
 " CoC Settings
@@ -340,7 +341,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
-nnoremap <silent> <LEADER>h :call <SID>show_documentation()<CR>
+nnoremap <silent> <C-h> :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -425,7 +426,7 @@ let g:airline#extensions#coc#enabled = 1
 nnoremap <silent> <space>y  :<C-u>CocList -A --normal yank<cr>
 
 " Coc Codelens
-nmap <LEADER>cl <Plug>(coc-codelens-action)
+nmap <LEADER>le <Plug>(coc-codelens-action)
 
 " Coc List
 nnoremap <LEADER>dg :<c-u>CocList diagnostics<cr>
@@ -458,7 +459,7 @@ let g:syntastic_check_on_wq = 0
 " ===
 " === FZF
 " ===
-noremap <silent> <C-h> :History<CR>
+" noremap <silent> <C-h> :History<CR>
 noremap <leader>; :History:<CR>
 noremap <leader>m :Maps<CR>
 
@@ -643,12 +644,13 @@ nmap <space>el <Cmd>CocList explPresets<CR>
 " Auto Close Coc-explorer if it is the last window left
 autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
 
+" Auto Open Coc-explorer when starting vim
+autocmd User CocNvimInit call <SID>opened_explorer()
+
 " Ultisnips
 let g:UltiSnipsExpandTrigger = "<nop>"
 
 " Dim inactive windows using 'colorcolumn' setting
-" This tends to slow down redrawing, but is very useful.
-" Based on https://groups.google.com/d/msg/vim_use/IJU-Vk-QLJE/xz4hjPjCRBUJ
 " this will only work with lines containing text (i.e. not '~')
 " from 
 if exists('+colorcolumn')
@@ -678,4 +680,5 @@ if exists('+colorcolumn')
   augroup END
 endif
 
-" Toggleterm
+" Neoterm
+nnoremap <leader>tl :<c-u>exec v:count.'Tclear'<cr>

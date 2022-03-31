@@ -8,7 +8,15 @@
 	"codeLens.enable": true,
 	"java": {
 		"referencesCodeLens.enabled": true,
-		"jdt.ls.vmargs": "-javaagent:/usr/local/share/lombok/lombok.jar"
+		"jdt.ls.vmargs": "-javaagent:/usr/local/share/lombok/lombok.jar",
+        "java.configuration.runtimes": [
+          {
+            "name": "JavaSE-17",
+            "path": "/Library/Java/JavaVirtualMachines/jdk-17.0.1.jdk",
+            "default": true
+          },
+        ]
+        "java.trace.server": "verbose"
 	},
 	"python": {
 		"referencesCodeLens.enabled": true,
@@ -16,6 +24,7 @@
 		"linting.pylintEnabled": true
 	},
 	"metals": {
+        "enabled": false,
 		"statusBarEnabled": true,
 		"showImplicitArguments": true,
 		"showImplicitConversionsAndClasses": true,
