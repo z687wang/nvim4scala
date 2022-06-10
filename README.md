@@ -9,3 +9,5 @@ https://github.com/junegunn/vim-plug
 https://github.com/neoclide/coc.nvim
 ### Run PlugInstall
 ### Config Java and SBT path in Coc-settings.json
+### Install the silver search
+`brew install the_silver_searcher`
